@@ -42,7 +42,7 @@ def main(argv):
 
     makespan_all = []
 
-    for util in range(5, 65, 5):
+    for util in range(5, 55, 5):
         utili = float(util / 100)
         tasksets_name = './inputs/tasksets_m' + str(msets) + '_p' + str(processors) + '_u' + str(utili) + '_q' + str(pc_prob)+ '_s' + str(sparse)+ '_g' + str(group_mode)+ '_r' + str(group_prob)+'.npy'
         print(tasksets_name)
