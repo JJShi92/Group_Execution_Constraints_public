@@ -7,19 +7,6 @@ from operator import itemgetter
 from collections import defaultdict
 import time
 
-# Calculate the longest path of a given DAG task
-def longest_path_dag_gen(adjacency) -> float:
-    cost = np.zeros(adjacency.shape)
-    num_nodes = adjacency.shape[0]
-    for k in range(num_nodes):
-        for i in range(num_nodes):
-            if k == 0:
-                cost[i, :] = (adjacency.diagonal()[i] + adjacency.diagonal()[:]) * adjacency[i, :]
-                cost[np.triu_indices(num_nodes)] = -np.inf
-            else:
-                cost[i, :] = np.maximum(cost[i, :], cost[i, k] + cost[k, :] - adjacency[k, k])
-    return max(max(adjacency.diagonal()), cost.max())
-
 # Generates sets of DAG tasks
 
 # number of available processors m \in {4, 8, 16, 32}
@@ -336,3 +323,63 @@ def generate_tsk_dict(msets, num_processors, pc_prob, utilization, sparse, group
         # append each set to a utilization specified big set
         tasksets.append(taskset)
     return tasksets
+
+# convert task sets to different group allocation strategies
+def tsk_dict_convertor(msets, num_processors, group_mode, group_prob, tsk_set_org):
+    tsk_set = copy.deepcopy(tsk_set_org)
+    for i in range(msets):
+        for j in range(len(tsk_set[i])):
+
+            # print(g_temp.graph[0])
+            # define the groups
+            num_groups_candidate = [[0.25 * num_processors, num_processors],
+                                    [0.25 * num_processors, 2 * num_processors], [num_processors, 2 * num_processors]]
+            num_groups = random.randint(num_groups_candidate[group_mode][0], num_groups_candidate[group_mode][1])
+            # add one group for ungrouped nodes
+            num_groups = num_groups + 1
+            # define the distribution of different groups
+            ungroup_prob = [0.1, 0.3, 0.5]
+            gp_probabilities = []
+            gp_probabilities.append(ungroup_prob[group_prob])
+            gp_probabilities.extend(drs(num_groups - 1, 1 - ungroup_prob[group_prob]))
+
+            if abs(sum(gp_probabilities) - 1) > 0.01:
+                print('Something Wrong!')
+
+            '''
+            if group_prob == 0:
+                gp_probabilities = [1/num_groups] * num_groups
+            else:
+                gp_probabilities = np.random.dirichlet(np.ones(num_groups),size=1)[0]
+            '''
+
+            group_info = []
+            for k in range(int(tsk_set[i][j].V)):
+                group_info.append(np.random.choice(np.arange(0, num_groups), p=gp_probabilities))
+
+            group_info[0] = group_info[-1] = 0
+
+            tsk_set[i][j].group = group_info
+
+    return tsk_set
+
+# add communication overheads
+def tsk_dict_add_overheads(msets, overheads, tsk_set_org):
+    tsk_set = copy.deepcopy(tsk_set_org)
+    for i in range(msets):
+        for j in range(len(tsk_set[i])):
+            for k in range(int(tsk_set[i][j].V)):
+                tsk_set[i][j].weights[k] = tsk_set[i][j].weights[k] * overheads
+
+    return tsk_set
+
+# add communication overheads
+def tsk_dict_add_overheads_careful(msets, overheads, tsk_set_org):
+    tsk_set = copy.deepcopy(tsk_set_org)
+    for i in range(msets):
+        for j in range(len(tsk_set[i])):
+            for k in range(int(tsk_set[i][j].V)):
+                if tsk_set[i][j].group[k] > 0:
+                    tsk_set[i][j].weights[k] = tsk_set[i][j].weights[k] * overheads
+
+    return tsk_set

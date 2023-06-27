@@ -43,7 +43,7 @@ def main(argv):
             over = int(arg)
 
     for util in range(5, 55, 5):
-        overheads = 1 + over/10
+        overheads = 1 + over/100
         utili = float(util / 100)
         utilization = utili*processors
         tasksets_input_name = '../experiments/inputs/tasksets_m' + str(msets) + '_p' + str(processors) + '_u' + str(utili) + '_q' + str(pc_prob)+ '_s' + str(sparse) + '_g' + str(group_mode) + '_r' + str(group_prob) + '.npy'
