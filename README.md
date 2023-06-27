@@ -46,7 +46,6 @@ In addition, each script calculate the makespan fore task sets with utilization 
 
 ### Please Note: 
 
-## Figures
 
 
 ## References
