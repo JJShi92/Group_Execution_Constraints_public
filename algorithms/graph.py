@@ -9,7 +9,6 @@ import math
 import sys
 sys.path.append('../')
 from generators import generator_pure_dict as gen
-from algorithms import GroupDAG as groupdag
 
 class Graph:
     #def __init__(self, graph: Dict[int, List[int]], weights: List[int], priorities: List[int] = [], group: List[int] = []):
@@ -693,42 +692,6 @@ def calculate_makespan_all_groupped(taskset_org, available_processors_org):
             makespan_onetask.append(mk_1)
             makespan_onetask.append(mk_2)
             makespan_onetask.append(mk_3)
-            print(makespan_onetask)
-            makespan_oneset.append(makespan_onetask)
-
-        makespan_allset.append(makespan_oneset)
-
-    return makespan_allset
-
-# Calculate the makespan for all the given DAG tasks
-def calculate_makespan_new_group_preemptive(taskset_org, available_processors_org):
-    taskset = copy.deepcopy(taskset_org)
-    available_processors = copy.deepcopy(available_processors_org)
-    makespan_allset = []
-    for i in range(len(taskset)):
-        makespan_oneset = []
-        for j in range(len(taskset[i])):
-            makespan_onetask = []
-            if max(taskset[i][j].group) <= available_processors:
-                task = copy.deepcopy(taskset[i][j])
-                mk_0 = mk_2 = groupdag.makespan(task, available_processors)
-            else:
-                task = copy.deepcopy(taskset[i][j])
-                # print(task.parallelism_table)
-                if available_processors_org == 1:
-                    group_temp_0 = group_temp_1 = merge_one(task)
-                else:
-                    group_temp_0 = merge_utilization(task, available_processors)
-                    task = copy.deepcopy(taskset[i][j])
-                    group_temp_1 = merge_greedy(task, available_processors)
-                task = copy.deepcopy(taskset[i][j])
-                task.group = group_temp_0
-                mk_0 = groupdag.makespan(task, available_processors)
-                task = copy.deepcopy(taskset[i][j])
-                task.group = group_temp_1
-                mk_2 = groupdag.makespan(task, available_processors)
-            makespan_onetask.append(mk_0)
-            makespan_onetask.append(mk_2)
             print(makespan_onetask)
             makespan_oneset.append(makespan_onetask)
 
