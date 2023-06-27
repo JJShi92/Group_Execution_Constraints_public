@@ -42,9 +42,6 @@ def main(argv):
 
     makespan_all = []
 
-    if group_mode == 0 and group_prob == 0:
-        return
-
     for util in range(5, 55, 5):
         utili = float(util / 100)
         tasksets_name = './inputs/tasksets_m' + str(msets) + '_p' + str(processors) + '_u' + str(utili) + '_q' + str(pc_prob)+ '_s' + str(sparse)+ '_g' + str(group_mode)+ '_r' + str(group_prob)+'.npy'
