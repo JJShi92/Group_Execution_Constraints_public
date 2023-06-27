@@ -42,6 +42,8 @@ Inside the `experiments` folder, all the scripts to deploy the task set to the s
 
 Please note, some scripts have the `_ove` end, that are used for calculating the makespan by considering the overheads.
 
+In addition, each script calculate the makespan fore task sets with utilization levels from 5% to 50% per core (step 5%). Howver, the He's approach is relatively time consuming, we prepared scripts for calculating makespan for task sets at each utilization level as well, with `-u` argument, e.g., `-u 50` means 50% utilization per core. 
+
 ### Please Note: 
 
 ## Figures
