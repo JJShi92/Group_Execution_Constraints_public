@@ -20,11 +20,16 @@ The arg vector contains the following parameters:
 | -r               | The probability that a vertex is groupped. 0: 90%, 1: 70%, 2: 50%.                                                                                       |
 | -o               | The percentage of overheads.                                                                                     |
 
-The original task set generator does not have the '-o' option, only overheads related script has the '-o' option. 
+The original task set generator does not have the '-o' option, only overheads related scripts have the '-o' option. 
 
 
 ## Algorithms
 Inside the `algorithms` folder, all these algorithms related files are included as follows:
+-`Federated.py`: Federated scheduling from Li et al.[^1].
+-`graph.py`: The response time analysis for DAG tasks with group execution constraints. 
+-`HeECRTS_fixed.py`: Single path approach represented by He et al.[^2].
+-`Optimal.py`: The lower bound of the makespan, which is defined as the maximum between the WCET of the task over the available processor and the length of its critical path.
+-`UeterRTSS.py`: Parallel Path Progression DAG Scheduling approach proposed by Ueter et al.[^3].
 
 ## Experiments
 
@@ -34,3 +39,9 @@ Inside the `algorithms` folder, all these algorithms related files are included 
 
 
 ## References
+[^1]: J. Li, J. Chen, K. Agrawal, C. Lu, C. D. Gill, and A. Saifullah. Analysis of federated and global scheduling
+for parallel real-time tasks. In 26th Euromicro Conference on Real-Time Systems, ECRTS 2014, pages 85–96. IEEE Computer Society.
+[^2]: Q. He, M. Lv, and N. Guan. Response time bounds for DAG tasks with arbitrary intra-task priority
+assignment. In B. B. Brandenburg, editor, 33rd Euromicro Conference on Real-Time Systems, ECRTS 2021.
+[^3]: N. Ueter, M. Günzel, G. von der Brüggen, and J. Chen. Parallel path progression DAG scheduling. CoRR,
+abs/2208.11830, 2022
