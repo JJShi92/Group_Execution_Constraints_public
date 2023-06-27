@@ -19,6 +19,7 @@ The arg vector contains the following parameters:
 | -g               | Number of available grous. 0: [0.25 * num_processors, num_processors], 1: [0.25 * num_processors, 2 * num_processors], 2: [num_processors, 2 * num_processors]  |
 | -r               | The probability that a vertex is groupped. 0: 90%, 1: 70%, 2: 50%.                                                                                       |
 | -o               | The percentage of overheads.                                                                                     |
+| -u               | The average utilization per core.                                                                                |
 
 The original task set generator does not have the '-o' option, only overheads related scripts have the '-o' option. 
 
@@ -32,6 +33,14 @@ Inside the `algorithms` folder, all these algorithms related files are included 
 - `UeterRTSS.py`: Parallel Path Progression DAG Scheduling approach proposed by Ueter et al.[^3].
 
 ## Experiments
+Inside the `experiments` folder, all the scripts to deploy the task set to the specified response time analysis algorithm. 
+- `makespan_fed.py`: calculate the makespan by applying federated scheduling.
+- `makespan_group.py`: calculate the makespan by applying the new response time analysis for DAG tasks with group execution constraints. 
+- `makespan_he.py`: calculate the makespan by applying He's approach.
+- `makespan_lb.py`: calculate the lower bound of the makespan.
+- `makespan_ueter.py`: calculate the makespan by applying Ueter's approach.
+
+Please note, some scripts have the `_ove` end, that are used for calculating the makespan by considering the overheads.
 
 ### Please Note: 
 
