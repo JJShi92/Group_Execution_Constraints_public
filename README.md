@@ -25,11 +25,11 @@ The original task set generator does not have the '-o' option, only overheads re
 
 ## Algorithms
 Inside the `algorithms` folder, all these algorithms related files are included as follows:
--`Federated.py`: Federated scheduling from Li et al.[^1].
--`graph.py`: The response time analysis for DAG tasks with group execution constraints. 
--`HeECRTS_fixed.py`: Single path approach represented by He et al.[^2].
--`Optimal.py`: The lower bound of the makespan, which is defined as the maximum between the WCET of the task over the available processor and the length of its critical path.
--`UeterRTSS.py`: Parallel Path Progression DAG Scheduling approach proposed by Ueter et al.[^3].
+- `Federated.py`: Federated scheduling from Li et al.[^1].
+- `graph.py`: The response time analysis for DAG tasks with group execution constraints. 
+- `HeECRTS_fixed.py`: Single path approach represented by He et al.[^2].
+- `Optimal.py`: The lower bound of the makespan, which is defined as the maximum between the WCET of the task over the available processor and the length of its critical path.
+- `UeterRTSS.py`: Parallel Path Progression DAG Scheduling approach proposed by Ueter et al.[^3].
 
 ## Experiments
 
