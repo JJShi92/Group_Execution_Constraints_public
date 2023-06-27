@@ -7,6 +7,7 @@ import getopt
 sys.path.append('../')
 from generators import generator_pure_dict
 from algorithms import graph
+from algorithms import UeterRTSS as ueter
 
 def main(argv):
     msets = 10
@@ -15,11 +16,12 @@ def main(argv):
     group_mode = 0
     sparse = 0
     group_prob = 0
+    over = 1
     scale = 10**6
 
     try:
-        opts, args = getopt.getopt(argv, "hm:p:q:s:g:r:",
-                                   ["msets=", "processors", "pc_prob=", "sparse=", "gpm=", "gpq="])
+        opts, args = getopt.getopt(argv, "hm:p:q:s:g:r:o:",
+                                   ["msets=", "processors", "pc_prob=", "sparse=", "gpm=", "gpq=", "ove="])
     except getopt.GetoptError:
         print ('tasksets_generater.py -n <n tasks for each set> -m <m tasksets> -p <num of processors>')
         sys.exit(2)
@@ -39,18 +41,21 @@ def main(argv):
             group_mode = int(arg)
         elif opt in ("-r", "--gpq"):
             group_prob = int(arg)
+        elif opt in ("-o", "--ove"):
+            over = int(arg)
 
     makespan_all = []
 
     for util in range(5, 55, 5):
         utili = float(util / 100)
-        tasksets_name = './inputs/tasksets_m' + str(msets) + '_p' + str(processors) + '_u' + str(utili) + '_q' + str(pc_prob)+ '_s' + str(sparse)+ '_g' + str(group_mode)+ '_r' + str(group_prob)+'.npy'
-        print(tasksets_name)
+        overheads = 1 + over / 10
+        tasksets_name = './inputs2/tasksets_m' + str(msets) + '_p' + str(processors) + '_u' + str(
+            utili) + '_q' + str(pc_prob) + '_s' + str(sparse) + '_g' + str(group_mode) + '_r' + str(group_prob) + '_o' + str(overheads) + '.npy'
         tasksets = np.load(tasksets_name, allow_pickle = True)
 
-        makespan_all.append(graph.calculate_wcet_all(tasksets))
+        makespan_all.append(ueter.calculate_makespan_all(tasksets, processors))
 
-    results_name = './outputs/makespan_wcet_m' + str(msets) + '_p' + str(processors) + '_q' + str(pc_prob)+ '_s' + str(sparse)+ '_g' + str(group_mode)+ '_r' + str(group_prob)+'.npy'
+    results_name = './outputs2/makespan_ueter_m' + str(msets) + '_p' + str(processors) + '_q' + str(pc_prob)+ '_s' + str(sparse) + '_g' + str(group_mode) + '_r' + str(group_prob) + '_o' + str(over)+'.npy'
     np.save(results_name, makespan_all)
 
 
